@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Bookmark</title>
+
+    <!-- Bootstrap (optional but makes it look better) -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body class="bg-light">
+
+<div class="container mt-5">
+
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4>Add Bookmark</h4>
+        </div>
+
+        <div class="card-body">
+
+            <!-- Error message -->
+            <div th:if="${error}" class="alert alert-danger">
+                <p th:text="${error}"></p>
+            </div>
+
+            <form action="/addBookMark" method="post">
+
+                <div class="form-group">
+                    <label for="title">Bookmark Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter title" required>
+                </div>
+
+                <div class="form-group mt-3">
+                    <label for="url">URL</label>
+                    <input type="url" class="form-control" id="url" name="url" placeholder="https://example.com" required>
+                </div>
+
+                <button type="submit" class="btn btn-success mt-3">Save Bookmark</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

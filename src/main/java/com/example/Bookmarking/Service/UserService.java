@@ -21,4 +21,8 @@ public class UserService{
         UserModel user = new UserModel(userDto.getEmail(), passwordEncoder.encode(userDto.getPassword()) , userDto.getFullname());
         return userRepository.save(user);
     }
+    
+    public UserModel findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

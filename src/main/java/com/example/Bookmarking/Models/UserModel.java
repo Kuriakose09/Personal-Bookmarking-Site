@@ -1,8 +1,14 @@
 package com.example.Bookmarking.Models;
 
 import jakarta.persistence.Entity;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.*;
 import jakarta.persistence.UniqueConstraint;
+
+import com.example.Bookmarking.Models.BookMarkingModel;
 
 @Entity
 @Table(name = "users", uniqueConstraints = @UniqueConstraint(columnNames = "email"))
@@ -13,6 +19,9 @@ public class UserModel {
     private String email;
     private String password;
     private String fullname;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookMarkingModel> bookmarks = new ArrayList<>();
 	
     public UserModel() {
         super();
@@ -57,4 +66,11 @@ public class UserModel {
         this.fullname = fullname;
     }
 
+    public List<BookMarkingModel> getBookmarks() {
+        return bookmarks;
+    }
+
+    public void setBookmarks(List<BookMarkingModel> bookmarks) {
+        this.bookmarks = bookmarks;
+    }
 }

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>All Bookmarks</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" 
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+</head>
+<body class="bg-light">
+
+<div class="container mt-4">
+
+    <h2 class="text-center mb-4">All Bookmarks</h2>
+
+    <div class="card shadow">
+        <div class="card-body">
+
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>URL</th>
+                        <th>Added On</th>
+                        <th>User</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Loop each bookmark -->
+                    <tr th:each="bm : ${bookmarks}">
+                        <td th:text="${bm.title}"></td>
+
+                        <!-- Clickable URL -->
+                        <td>
+                            <a th:href="${bm.url}" target="_blank" 
+                               th:text="${bm.url}"></a>
+                        </td>
+
+                        <td th:text="${#temporals.format(bm.createdAt, 'dd-MM-yyyy HH:mm')}"></td>
+
+                        <!-- Show who added it -->
+                        <td th:text="${bm.user.fullname}"></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination Section -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+
+                    <!-- Previous Button -->
+                    <li class="page-item" 
+                        th:classappend="${currentPage == 0} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{'/bookmarks/list?page=' + ${currentPage - 1}}">
+                            Previous
+                        </a>
+                    </li>
+
+                    <!-- Page Numbers -->
+                    <li class="page-item"
+                        th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:classappend="${i == currentPage} ? 'active'">
+                        <a class="page-link"
+                           th:href="@{'/bookmarks/list?page=' + ${i}}"
+                           th:text="${i + 1}">
+                        </a>
+                    </li>
+
+                    <!-- Next Button -->
+                    <li class="page-item"
+                        th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
+                        <a class="page-link"
+                           th:href="@{'/bookmarks/list?page=' + ${currentPage + 1}}">
+                            Next
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>
