@@ -10,7 +10,7 @@
 
 </head>
 <body class="bg-light">
-
+	<div th:replace="navigation :: navigation"></div>
 <div class="container mt-4">
 
     <h2 class="text-center mb-4">All Bookmarks</h2>
@@ -54,7 +54,7 @@
                     <li class="page-item" 
                         th:classappend="${currentPage == 0} ? 'disabled'">
                         <a class="page-link"
-                           th:href="@{'/bookmarks/list?page=' + ${currentPage - 1}}">
+                           th:href="@{'/listBookMark?page=' + ${currentPage - 1}}">
                             Previous
                         </a>
                     </li>
@@ -64,7 +64,7 @@
                         th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                         th:classappend="${i == currentPage} ? 'active'">
                         <a class="page-link"
-                           th:href="@{'/bookmarks/list?page=' + ${i}}"
+                           th:href="@{'/listBookMark?page=' + ${i}}"
                            th:text="${i + 1}">
                         </a>
                     </li>
@@ -73,7 +73,7 @@
                     <li class="page-item"
                         th:classappend="${currentPage >= totalPages - 1} ? 'disabled'">
                         <a class="page-link"
-                           th:href="@{'/bookmarks/list?page=' + ${currentPage + 1}}">
+                           th:href="@{'/listBookMark?page=' + ${currentPage + 1}}">
                             Next
                         </a>
                     </li>

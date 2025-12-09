@@ -1,0 +1,35 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-3" th:fragment="navigation">
+
+    <!-- Brand -->
+    <a class="navbar-brand" href="#">BookMarking</a>
+
+    
+   
+    <!-- Navbar Items -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+
+        <ul class="navbar-nav">
+
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/profile}">
+                    Profile
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/listBookMark}">
+                    BookMark List
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/addBookMark}">
+                    Add BookMark
+                </a>
+            </li>
+
+        </ul>
+
+    </div>
+
+</nav>

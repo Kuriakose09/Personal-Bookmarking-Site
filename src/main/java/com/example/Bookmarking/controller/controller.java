@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -40,7 +41,7 @@ public class controller {
 	public String saveUser(@ModelAttribute("UserModel") UserDto userDto, Model model) {
 	    userService.save(userDto);
 	    model.addAttribute("message", "Registered Successfuly!");
-	    return "register";
+	    return "login";
 	}
 	
 	@GetMapping("/login")
@@ -82,6 +83,52 @@ public class controller {
 
 	    return "bookmarkList";
 	}
+	
+	 @GetMapping("/profile")
+	    public String profile(Model model, Principal principal) {
+
+	        UserModel user = userService.findByEmail(principal.getName());
+
+	        model.addAttribute("user", user);
+	        model.addAttribute("bookmarks", bookmarkService.getBookmarksOfUser(user));
+
+	        return "profile";   // profile.html
+	    }
+	// Delete bookmark
+	    @GetMapping("/profile/delete/{id}")
+	    public String deleteBookmark(@PathVariable Long id, Principal principal) {
+
+	        UserModel user = userService.findByEmail(principal.getName());
+	        bookmarkService.deleteBookmark(id, user);
+
+	        return "redirect:/profile";
+	    }
+
+	    // Load edit section inside same page
+	    @GetMapping("/profile/edit/{id}")
+	    public String editBookmark(@PathVariable Long id, Model model, Principal principal) {
+
+	        UserModel user = userService.findByEmail(principal.getName());
+	        BookMarkingModel bm = bookmarkService.getBookmarkForEdit(id, user);
+
+	        model.addAttribute("user", user);
+	        model.addAttribute("editBookmark", bm);
+	        model.addAttribute("bookmarks", bookmarkService.getBookmarksOfUser(user));
+
+	        return "edit";
+	    }
+
+	    // Save edited bookmark
+	    @PostMapping("/profile/update/{id}")
+	    public String updateBookmark(@PathVariable Long id,
+	                                 @ModelAttribute BookmarkDTO dto,
+	                                 Principal principal) {
+
+	        UserModel user = userService.findByEmail(principal.getName());
+	        bookmarkService.updateBookmark(id, dto, user);
+
+	        return "redirect:/profile";
+	    }
 
 
 }

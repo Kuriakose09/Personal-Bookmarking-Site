@@ -1,6 +1,7 @@
 package com.example.Bookmarking.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ public class BookmarkService {
 	public void addBookmark(BookmarkDTO Bookmarkdto, UserModel user) {
 		int count = BookmarkRepo.countByUser(user);
 		
-		if(count > 5) {
+		if(count > 4) {
 			  throw new RuntimeException("You can add only 5 bookmarks!");
 		}
 		BookMarkingModel bookmark = new BookMarkingModel(Bookmarkdto.getTitle(),Bookmarkdto.getUrl());
@@ -32,4 +33,30 @@ public class BookmarkService {
 	  public Page<BookMarkingModel> getAllBookmarks(int page, int size) {
 	        return BookmarkRepo.findAll(PageRequest.of(page, size));
 	    }
+	  public List<BookMarkingModel> getBookmarksOfUser(UserModel user) {
+		    return BookmarkRepo.findByUser(user);
+		}
+
+		public void deleteBookmark(Long id, UserModel user) {
+		    BookMarkingModel bookmark = BookmarkRepo.findByIdAndUser(id, user)
+		            .orElseThrow(() -> new RuntimeException("You can delete only your own bookmarks!"));
+
+		    BookmarkRepo.delete(bookmark);
+		}
+
+		public BookMarkingModel getBookmarkForEdit(Long id, UserModel user) {
+		    return BookmarkRepo.findByIdAndUser(id, user)
+		            .orElseThrow(() -> new RuntimeException("You can edit only your own bookmarks!"));
+		}
+
+		public void updateBookmark(Long id, BookmarkDTO dto, UserModel user) {
+		    BookMarkingModel bookmark = BookmarkRepo.findByIdAndUser(id, user)
+		            .orElseThrow(() -> new RuntimeException("You can edit only your own bookmarks!"));
+
+		    bookmark.setTitle(dto.getTitle());
+		    bookmark.setUrl(dto.getUrl());
+
+		    BookmarkRepo.save(bookmark);
+		}
+
 }

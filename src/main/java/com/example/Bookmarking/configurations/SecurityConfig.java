@@ -32,7 +32,7 @@ public class SecurityConfig {
 	            	.anyRequest().authenticated())
 				.formLogin(form -> form
 	                .loginPage("/login").loginProcessingUrl("/login")
-	                .defaultSuccessUrl("/addBookMark", true).permitAll())
+	                .defaultSuccessUrl("/listBookMark", true).permitAll())
 	            .logout(form -> form
 	            		.logoutUrl("/logout")                  // 👈 instead of logoutRequestMatcher(...)
 	                    .invalidateHttpSession(true)

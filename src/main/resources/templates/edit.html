@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Edit BookMarking</title>
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet"
+		      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+		<style>
+		    .card {
+		        border-radius: 8px;
+		    }
+		    .table th, .table td {
+		        vertical-align: middle;
+		    }
+		</style>
+		
+	</head>
+	<body class="bg-light">
+		<!-- NAVBAR -->
+		<div th:replace="navigation :: navigation"></div>
+		<!-- EDIT BOOKMARK FORM -->
+		<div th:if="${editBookmark}" class="card shadow mb-4">
+		    <div class="card-header bg-warning text-white">
+		        <h5 class="mb-0">Edit Bookmark</h5>
+		    </div>
+
+		    <div class="card-body">
+		        <form th:action="@{'/profile/update/' + ${editBookmark.id}}" method="post">
+
+		            <div class="form-group">
+		                <label>Title:</label>
+		                <input type="text" class="form-control"
+		                       name="title" th:value="${editBookmark.title}" required>
+		            </div>
+
+		            <div class="form-group mt-2">
+		                <label>URL:</label>
+		                <input type="url" class="form-control"
+		                       name="url" th:value="${editBookmark.url}" required>
+		            </div>
+
+		            <button class="btn btn-success mt-3">Update</button>
+		            <a th:href="@{/profile}" class="btn btn-secondary mt-3 ml-2">Cancel</a>
+
+		        </form>
+		    </div>
+		</div>
+	</body>
+</html>
