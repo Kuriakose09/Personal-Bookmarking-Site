@@ -71,19 +71,23 @@ public class controller {
 	}
 	
 	@GetMapping("/listBookMark")
-	public String listBookmarks(@RequestParam(defaultValue = "0") int page, Model model) {
+	public String listBookmarks(@RequestParam(defaultValue = "0") int page,
+	                            @RequestParam(required = false) String keyword,
+	                            Model model) {
 
-	    int pageSize = 5;  // 5 per page
+	    int size = 5;
 
-	    Page<BookMarkingModel> bookmarkPage = bookmarkService.getAllBookmarks(page, pageSize);
+	    Page<BookMarkingModel> bookmarkPage =
+	            bookmarkService.getAllBookmarks(page, size, keyword);
 
 	    model.addAttribute("bookmarks", bookmarkPage.getContent());
 	    model.addAttribute("currentPage", page);
 	    model.addAttribute("totalPages", bookmarkPage.getTotalPages());
+	    model.addAttribute("keyword", keyword);
 
 	    return "bookmarkList";
 	}
-	
+
 	 @GetMapping("/profile")
 	    public String profile(Model model, Principal principal) {
 
